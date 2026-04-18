@@ -10,17 +10,19 @@ proxies:
     port: 20000
     uuid: ac8cc211-fb3e-4ccc-912d-5d3f3190e4c7
     network: tcp
+    udp: false
     tls: true
     servername: www.cloudflare.com
+    client-fingerprint: chrome
     reality-opts:
       public-key: FFikQX11fcy3vvXzkRa_8vb9-08S6yHGK5PH5mgcumA
       short-id: a1b2c3d4
 
 proxy-groups:
-  - name: 🚀 Proxy
+  - name: Proxy
     type: select
     proxies:
       - MY-RELAY
 
 rules:
-  - MATCH,🚀 Proxy
+  - MATCH,Proxy
