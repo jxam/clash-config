@@ -19,7 +19,7 @@ proxies:
     network: tcp
     udp: false
     tls: true
-    servername: www.cloudflare.com
+    servername: www.microsoft.com
     client-fingerprint: chrome
     reality-opts:
       public-key: FFikQX11fcy3vvXzkRa_8vb9-08S6yHGK5PH5mgcumA
