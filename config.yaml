@@ -1,3 +1,10 @@
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
 mixed-port: 7890
 allow-lan: true
 mode: rule
