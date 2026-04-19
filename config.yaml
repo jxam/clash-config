@@ -4,7 +4,7 @@ mode: rule
 log-level: info
 
 proxies:
-  - name: MY-Relay（马来西亚）
+  - name: MY-Relay-MY
     type: vless
     server: 205.186.67.61
     port: 20000
@@ -18,7 +18,7 @@ proxies:
       public-key: FFikQX11fcy3vvXzkRa_8vb9-08S6yHGK5PH5mgcumA
       short-id: a1b2c3d4
 
-  - name: US-Relay（洛杉矶）
+  - name: US-Relay-LA
     type: vless
     server: 166.88.209.29
     port: 20000
@@ -36,8 +36,8 @@ proxy-groups:
   - name: Bodly
     type: select
     proxies:
-      - MY-Relay（马来西亚）
-      - US-Relay（洛杉矶）
+      - MY-Relay-MY
+      - US-Relay-LA
 
 rules:
   - MATCH,Bodly
