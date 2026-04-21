@@ -4,18 +4,6 @@ mode: rule
 log-level: info
 ipv6: false
 
-unified-delay: true
-tcp-concurrent: true
-find-process-mode: strict
-
-geodata-mode: true
-geo-auto-update: true
-geo-update-interval: 24
-
-profile:
-  store-selected: true
-  store-fake-ip: true
-
 tun:
   enable: true
   stack: mixed
@@ -27,7 +15,6 @@ tun:
 dns:
   enable: true
   ipv6: false
-  listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   default-nameserver:
@@ -68,36 +55,19 @@ proxies:
       short-id: a1b2c3d4
 
 proxy-groups:
-  - name: Bodly
+  - name: Proxy
     type: select
     proxies:
-      - Auto
       - US-Relay-LA
       - MY-Relay-MY
       - DIRECT
 
-  - name: Auto
-    type: url-test
-    proxies:
-      - US-Relay-LA
-      - MY-Relay-MY
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-
-  - name: TikTok
-    type: select
-    proxies:
-      - US-Relay-LA
-      - Bodly
-      - MY-Relay-MY
-
 rules:
-  # 国内直连
+  # 国内 IP 直连（最关键）
   - GEOIP,CN,DIRECT
 
-  # TikTok 强制美国
-  - DOMAIN-SUFFIX,tiktok.com,TikTok
-  - DOMAIN-SUFFIX,tiktokv.com,TikTok
+  # 兜底（防止 DNS 误判）
+  - GEOSITE,CN,DIRECT
 
-  # 默认走代理
-  - MATCH,Bodly
+  # 其他全部走代理
+  - MATCH,Proxy
