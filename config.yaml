@@ -2,6 +2,43 @@ mixed-port: 7890
 allow-lan: true
 mode: rule
 log-level: info
+ipv6: false
+
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: strict
+
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  proxy-server-nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
 
 proxies:
   - name: MY-Relay-MY
@@ -10,7 +47,6 @@ proxies:
     port: 20000
     uuid: ac8cc211-fb3e-4ccc-912d-5d3f3190e4c7
     network: tcp
-    udp: false
     tls: true
     servername: www.microsoft.com
     client-fingerprint: chrome
@@ -24,20 +60,44 @@ proxies:
     port: 20000
     uuid: e58af7e4-4f5d-4d67-8295-e89a42ec34be
     network: tcp
-    udp: false
     tls: true
     servername: www.microsoft.com
     client-fingerprint: chrome
     reality-opts:
-      public-key: 38jHwbilbDPOjcfk6BM8QM7PJrOOiQerViz8lgYlzEg
+      public-key: jaL3D2sVwU-RU4mKJzs-VtL8D6u5UAZOghKofhpIJjM
       short-id: a1b2c3d4
 
 proxy-groups:
   - name: Bodly
     type: select
     proxies:
-      - MY-Relay-MY
+      - Auto
       - US-Relay-LA
+      - MY-Relay-MY
+      - DIRECT
+
+  - name: Auto
+    type: url-test
+    proxies:
+      - US-Relay-LA
+      - MY-Relay-MY
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+
+  - name: TikTok
+    type: select
+    proxies:
+      - US-Relay-LA
+      - Bodly
+      - MY-Relay-MY
 
 rules:
+  # 国内直连
+  - GEOIP,CN,DIRECT
+
+  # TikTok 强制美国
+  - DOMAIN-SUFFIX,tiktok.com,TikTok
+  - DOMAIN-SUFFIX,tiktokv.com,TikTok
+
+  # 默认走代理
   - MATCH,Bodly
