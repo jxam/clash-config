@@ -34,6 +34,7 @@ proxies:
     port: 20000
     uuid: ac8cc211-fb3e-4ccc-912d-5d3f3190e4c7
     network: tcp
+    udp: true
     tls: true
     servername: www.microsoft.com
     client-fingerprint: chrome
@@ -47,11 +48,12 @@ proxies:
     port: 20000
     uuid: e58af7e4-4f5d-4d67-8295-e89a42ec34be
     network: tcp
+    udp: true
     tls: true
     servername: www.microsoft.com
     client-fingerprint: chrome
     reality-opts:
-      public-key: jaL3D2sVwU-RU4mKJzs-VtL8D6u5UAZOghKofhpIJjM
+      public-key: 38jHwbilbDPOjcfk6BM8QM7PJrOOiQerViz8lgYlzEg
       short-id: a1b2c3d4
 
 proxy-groups:
@@ -63,11 +65,6 @@ proxy-groups:
       - DIRECT
 
 rules:
-  # 国内 IP 直连（最关键）
   - GEOIP,CN,DIRECT
-
-  # 兜底（防止 DNS 误判）
   - GEOSITE,CN,DIRECT
-
-  # 其他全部走代理
   - MATCH,Proxy
