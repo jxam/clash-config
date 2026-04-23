@@ -55,6 +55,20 @@ proxies:
     reality-opts:
       public-key: 38jHwbilbDPOjcfk6BM8QM7PJrOOiQerViz8lgYlzEg
       short-id: a1b2c3d4
+      
+  - name: BWG-US-LA
+    type: vless
+    server: 104.194.81.68
+    port: 20000
+    uuid: f09059a7-92ea-464d-b634-a0ca3b2722cc
+    network: tcp
+    udp: false
+    tls: true
+    servername: www.apple.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: wNC6RkSwmaDaDwEFa9B2uPL28X9TI4xWusDC4ID-Fg8
+      short-id: a1b2c3d4
 
 proxy-groups:
   - name: Proxy
@@ -62,6 +76,7 @@ proxy-groups:
     proxies:
       - US-Relay-LA
       - MY-Relay-MY
+      - BWG-US-LA
       - DIRECT
 
 rules:
