@@ -1,0 +1,143 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns_direct",
+        "address": "223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns_proxy",
+        "address": "1.1.1.1",
+        "detour": "proxy"
+      }
+    ],
+    "rules": [
+      {
+        "geosite": "cn",
+        "server": "dns_direct"
+      }
+    ],
+    "final": "dns_proxy",
+    "strategy": "ipv4_only"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "tun0",
+      "inet4_address": "172.19.0.1/30",
+      "auto_route": true,
+      "strict_route": false,
+      "sniff": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "US-Relay-LA",
+        "MY-Relay-MY",
+        "BWG-US-LA",
+        "direct"
+      ],
+      "default": "US-Relay-LA"
+    },
+    {
+      "type": "vless",
+      "tag": "US-Relay-LA",
+      "server": "166.88.209.29",
+      "server_port": 20000,
+      "uuid": "e58af7e4-4f5d-4d67-8295-e89a42ec34be",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.microsoft.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "38jHwbilbDPOjcfk6BM8QM7PJrOOiQerViz8lgYlzEg",
+          "short_id": "a1b2c3d4"
+        }
+      },
+      "packet_encoding": "xudp"
+    },
+    {
+      "type": "vless",
+      "tag": "MY-Relay-MY",
+      "server": "205.186.67.61",
+      "server_port": 20000,
+      "uuid": "ac8cc211-fb3e-4ccc-912d-5d3f3190e4c7",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.microsoft.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "FFikQX11fcy3vvXzkRa_8vb9-08S6yHGK5PH5mgcumA",
+          "short_id": "a1b2c3d4"
+        }
+      },
+      "packet_encoding": "xudp"
+    },
+    {
+      "type": "vless",
+      "tag": "BWG-US-LA",
+      "server": "104.194.81.68",
+      "server_port": 20000,
+      "uuid": "f09059a7-92ea-464d-b634-a0ca3b2722cc",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.apple.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "wNC6RkSwmaDaDwEFa9B2uPL28X9TI4xWusDC4ID-Fg8",
+          "short_id": "a1b2c3d4"
+        }
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      },
+      {
+        "geoip": "cn",
+        "outbound": "direct"
+      },
+      {
+        "geosite": "cn",
+        "outbound": "direct"
+      }
+    ],
+    "final": "proxy",
+    "auto_detect_interface": true
+  }
+}
